@@ -298,8 +298,8 @@ df_contributors_by_company_hudi_small = df_contributors_by_company_hudi_small.ap
 )
 
 df_contributors_by_company_small_xaxis = [
-            df_contributors_by_company_hudi_small['contributors'].max(),
-            df_contributors_by_company_hudi_small['contributors'].max(),
+            df_contributors_by_company_iceberg_small['contributors'].max(),
+            df_contributors_by_company_delta_small['contributors'].max(),
             df_contributors_by_company_hudi_small['contributors'].max(),
 ]
 
