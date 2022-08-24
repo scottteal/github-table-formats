@@ -620,10 +620,6 @@ contributors_hudi_bars_small = alt.Chart(df_contributors_by_company_hudi_small).
         strokeWidth=0
     )
 
-# DEFINE CHARTS - CONTRIBUTORS - ICEBERG - LARGE
-# DEFINE CHARTS - CONTRIBUTORS - DELTA - LARGE
-# DEFINE CHARTS - CONTRIBUTORS - HUDI - LARGE
-
 # DEFINE CHARTS - PULLS - BARS
 pulls_bars = alt.Chart(df_total_pulls_bars).mark_bar().encode(
         x=alt.X('pulls',
@@ -800,15 +796,6 @@ pulls_hudi_bars_small = alt.Chart(df_pulls_by_company_hudi_small).mark_bar().enc
         strokeWidth=0
     )
 
-# DEFINE CHARTS - PULLS - ICEBERG - LARGE
-
-
-# DEFINE CHARTS - PULLS - DELTA - LARGE
-
-
-# DEFINE CHARTS - PULLS - HUDI - LARGE
-
-
 # DEFINE CHARTS - COMMITS - BARS
 commits_bars = alt.Chart(df_total_commits).mark_bar().encode(
         x=alt.X('commits',
@@ -891,10 +878,6 @@ commits_hudi_bars_small = alt.Chart(df_commits_by_company_hudi_small).mark_bar()
     ).configure_view(
         strokeWidth=0
     )
-
-# DEFINE CHARTS - COMMITS - ICEBERG - LARGE
-# DEFINE CHARTS - COMMITS - DELTA - LARGE
-# DEFINE CHARTS - COMMITS - HUDI - LARGE
 
 # DEFINE CHARTS - COMMITS - LINES
 commits_line_project = alt.Chart(df_total_commits_line_project).mark_line().encode(
