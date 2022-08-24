@@ -52,10 +52,10 @@ def load_project_contributors():
     
     for i in all_proj_contributors:
         url = 'https://api.github.com/repos/'+str(i['repo'])+'/contributors?per_page=100&page=1'
-        response = requests.get(url,headers={"Authorization": 'token XXX'})
+        response = requests.get(url,headers={"Authorization": 'token '+st.secrets["token_1"]})
         i['contributors'] = response.json()
         while 'next' in response.links.keys():
-            response = requests.get(response.links['next']['url'],headers={"Authorization": 'token XXX'})
+            response = requests.get(response.links['next']['url'],headers={"Authorization": 'token '+st.secrets["token_1"]})
             i['contributors'].extend(response.json())
     
     df_all_proj_contributors = pd.json_normalize([user for user in all_proj_contributors],
@@ -85,7 +85,7 @@ def load_unique_profiles():
     unique_profiles = []
     for i in df_unique_contributors:
         req = urllib.request.Request(i)
-        req.add_header('Authorization', 'token XXX')
+        req.add_header('Authorization', 'token '+st.secrets["token_1"])
         #progress_contributors.progress(j+1)
         with urllib.request.urlopen(req) as response:
                 unique_profiles.append(json.load(response))
@@ -108,7 +108,7 @@ def load_project_pulls():
         response = requests.get(url,headers={"Authorization": 'token '})
         i['pulls'] = response.json()
         while 'next' in response.links.keys():
-            response = requests.get(response.links['next']['url'],headers={"Authorization": 'token XXX XXX'})
+            response = requests.get(response.links['next']['url'],headers={"Authorization": 'token '+st.secrets["token_2"]})
             i['pulls'].extend(response.json())
     
     # flatten the JSON payload into a dataframe, only keeping fields needed
@@ -141,10 +141,10 @@ def load_project_commits():
     
     for i in all_proj_commits:
         url = 'https://api.github.com/repos/'+str(i['repo'])+'/commits?state=all&page=1'
-        response = requests.get(url,headers={"Authorization": 'token XXX XXX'})
+        response = requests.get(url,headers={"Authorization": 'token '+st.secrets["token_2"]})
         i['commits'] = response.json()
         while 'next' in response.links.keys():
-            response = requests.get(response.links['next']['url'],headers={"Authorization": 'token XXX XXX'})
+            response = requests.get(response.links['next']['url'],headers={"Authorization": 'token '+st.secrets["token_2"]})
             i['commits'].extend(response.json())
     
     # flatten the JSON payload into a dataframe, only keeping fields needed
