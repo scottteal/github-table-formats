@@ -42,7 +42,7 @@ def load_projects():
 
 all_proj_repos = load_projects()
 
-@st.cache
+@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def load_project_contributors():
     all_proj_contributors = []
     for i in all_proj_repos:
@@ -77,7 +77,8 @@ def load_project_contributors():
 df_all_proj_contributors = load_project_contributors()
 
 # CONTRIBUTOR PROFILE DATA
-@st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
+
 def load_unique_profiles():
     df_unique_contributors = df_all_proj_contributors['url'].unique()
     unique_profiles = []
@@ -95,7 +96,7 @@ def load_unique_profiles():
 df_unique_profiles = load_unique_profiles()
 
 # LOAD PULL REQUEST DATA
-@st.cache
+@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def load_project_pulls():
     all_proj_pulls = []
     for i in all_proj_repos:
@@ -131,7 +132,7 @@ def load_project_pulls():
 df_pulls = load_project_pulls()
 
 # LOAD COMMITS DATA
-@st.cache
+@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def load_project_commits():
     all_proj_commits = []
     for i in all_proj_repos:
