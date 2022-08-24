@@ -103,7 +103,7 @@ def load_project_pulls():
     
     for i in all_proj_pulls:
         url = 'https://api.github.com/repos/'+str(i['repo'])+'/pulls?state=all&page=1'
-        response = requests.get(url,headers={"Authorization": 'token '})
+        response = requests.get(url,headers={"Authorization": 'token '+st.secrets["token_2"]})
         i['pulls'] = response.json()
         while 'next' in response.links.keys():
             response = requests.get(response.links['next']['url'],headers={"Authorization": 'token '+st.secrets["token_2"]})
