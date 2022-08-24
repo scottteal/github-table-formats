@@ -1001,32 +1001,22 @@ with tab1:
     
     with tab1_row1_1:
         st.subheader('By Project')
+        st.altair_chart(contributions_bars, use_container_width=True)
 
     with tab1_row1_2:
         st.subheader('Iceberg')
-
-    with tab1_row1_3:
-        st.subheader('Delta Lake')
-
-    with tab1_row1_4:
-        st.subheader('Hudi')
-    
-    tab1_row2_1, tab1_row2_2, tab1_row2_3, tab1_row2_4 = st.columns((1, 1, 1, 1))
-
-    with tab1_row2_1:
-        st.altair_chart(contributions_bars, use_container_width=True)
-
-    with tab1_row2_2:
         st.altair_chart(contributions_iceberg_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_contributions_by_company_iceberg[['company_clean','contributions','pct_contributions']].rename(columns={'company_clean':'company','pct_contributions':'%'}))
 
-    with tab1_row2_3:
+    with tab1_row1_3:
+        st.subheader('Delta Lake')
         st.altair_chart(contributions_delta_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_contributions_by_company_delta[['company_clean','contributions','pct_contributions']].rename(columns={'company_clean':'company','pct_contributions':'%'}))
 
-    with tab1_row2_4:
+    with tab1_row1_4:
+        st.subheader('Hudi')
         st.altair_chart(contributions_hudi_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_contributions_by_company_hudi[['company_clean','contributions','pct_contributions']].rename(columns={'company_clean':'company','pct_contributions':'%'}))
@@ -1035,41 +1025,31 @@ with tab1:
     st.markdown("""
     A [contributor](https://docs.github.com/en/get-started/quickstart/github-glossary#contributor) is someone who does not have collaborator access to a repository but has contributed to a project and had a pull request they opened merged into the repository.
     """)
-
-    tab1_row3_1, tab1_row3_2, tab1_row3_3, tab1_row3_4 = st.columns(4)
     
-    with tab1_row3_1:
+    tab1_row2_1, tab1_row2_2, tab1_row2_3, tab1_row2_4 = st.columns(4)
+
+    with tab1_row2_1:
         st.subheader('By Project')
-
-    with tab1_row3_2:
-        st.subheader('Iceberg')
-
-    with tab1_row3_3:
-        st.subheader('Delta Lake')
-
-    with tab1_row3_4:
-        st.subheader('Hudi')
-    
-    tab1_row4_1, tab1_row4_2, tab1_row4_3, tab1_row4_4 = st.columns((1, 1, 1, 1))
-
-    with tab1_row4_1:
         st.altair_chart(contributors_bars, use_container_width=True)
 
-    with tab1_row4_2:
+    with tab1_row2_2:
+        st.subheader('Iceberg')
         st.altair_chart(contributors_iceberg_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_contributors_by_company_iceberg[['company_clean','contributors','pct_contributors']].rename(columns={'company_clean':'company','pct_contributors':'%'}))
 
-    with tab1_row4_3:
+    with tab1_row2_3:
+        st.subheader('Delta Lake')
         st.altair_chart(contributors_delta_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_contributors_by_company_delta[['company_clean','contributors','pct_contributors']].rename(columns={'company_clean':'company','pct_contributors':'%'}))
 
-    with tab1_row4_4:
+    with tab1_row2_4:
+        st.subheader('Hudi')
         st.altair_chart(contributors_hudi_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_contributors_by_company_hudi[['company_clean','contributors','pct_contributors']].rename(columns={'company_clean':'company','pct_contributors':'%'}))
-
+        
 with tab2:
     st.header('Total Pull Requests by Project')
     st.markdown("""
@@ -1080,32 +1060,22 @@ with tab2:
 
     with tab2_row1_1:
         st.subheader('By Project')
+        st.altair_chart(pulls_bars, use_container_width=True)
 
     with tab2_row1_2:
         st.subheader('Iceberg')
-
-    with tab2_row1_3:
-        st.subheader('Delta Lake')
-
-    with tab2_row1_4:
-        st.subheader('Hudi')
-    
-    tab2_row2_1, tab2_row2_2, tab2_row2_3, tab2_row2_4 = st.columns((1, 1, 1, 1))
-
-    with tab2_row2_1:
-        st.altair_chart(pulls_bars, use_container_width=True)
-
-    with tab2_row2_2:
         st.altair_chart(pulls_iceberg_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_pulls_by_company_iceberg[['company_clean','pulls','pct_pulls']].rename(columns={'company_clean':'company','pulls':'pull requests','pct_pulls':'%'}))
 
-    with tab2_row2_3:
+    with tab2_row1_3:
+        st.subheader('Delta Lake')
         st.altair_chart(pulls_delta_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_pulls_by_company_delta[['company_clean','pulls','pct_pulls']].rename(columns={'company_clean':'company','pulls':'pull requests','pct_pulls':'%'}))
 
-    with tab2_row2_4:
+    with tab2_row1_4:
+        st.subheader('Hudi')
         st.altair_chart(pulls_hudi_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_pulls_by_company_hudi[['company_clean','pulls','pct_pulls']].rename(columns={'company_clean':'company','pulls':'pull requests','pct_pulls':'%'}))
@@ -1122,8 +1092,7 @@ with tab2:
         st.altair_chart(pulls_line_company_cumsum, use_container_width=True)
     else:
         st.subheader('Pull Requests Over Time by Company')
-        st.altair_chart(pulls_line_company, use_container_width=True)
-    
+        st.altair_chart(pulls_line_company, use_container_width=True)    
 
 with tab3:
     st.header('Total Commits by Project')
@@ -1135,32 +1104,22 @@ with tab3:
 
     with tab3_row1_1:
         st.subheader('By Project')
+        st.altair_chart(commits_bars, use_container_width=True)
 
     with tab3_row1_2:
         st.subheader('Iceberg')
-
-    with tab3_row1_3:
-        st.subheader('Delta Lake')
-
-    with tab3_row1_4:
-        st.subheader('Hudi')
-    
-    tab3_row2_1, tab3_row2_2, tab3_row2_3, tab3_row2_4 = st.columns(4)
-
-    with tab3_row2_1:
-        st.altair_chart(commits_bars, use_container_width=True)
-
-    with tab3_row2_2:
         st.altair_chart(commits_iceberg_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_commits_by_company_hudi[['company_clean','commits','pct_commits']].rename(columns={'company_clean':'company','pct_commits':'%'}))
 
-    with tab3_row2_3:
+    with tab3_row1_3:
+        st.subheader('Delta Lake')
         st.altair_chart(commits_delta_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_commits_by_company_hudi[['company_clean','commits','pct_commits']].rename(columns={'company_clean':'company','pct_commits':'%'}))
 
-    with tab3_row2_4:
+    with tab3_row1_4:
+        st.subheader('Hudi')
         st.altair_chart(commits_hudi_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_commits_by_company_hudi[['company_clean','commits','pct_commits']].rename(columns={'company_clean':'company','pct_commits':'%'}))
