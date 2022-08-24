@@ -297,6 +297,12 @@ df_contributors_by_company_hudi_small = df_contributors_by_company_hudi_small.ap
     }, ignore_index=True
 )
 
+df_contributors_by_company_small_xaxis = [
+            df_contributors_by_company_hudi_small['contributors'].max(),
+            df_contributors_by_company_hudi_small['contributors'].max(),
+            df_contributors_by_company_hudi_small['contributors'].max(),
+]
+
 # DEFINE CHART DATAFRAMES - PULLS - BARS
 df_total_pulls_bars = df_pulls_profiles.groupby('project', as_index=False).size().rename(columns={'size':'pulls'})
 
@@ -564,7 +570,7 @@ contributors_bars = alt.Chart(df_total_contributors).mark_bar().encode(
 contributors_iceberg_bars_small = alt.Chart(df_contributors_by_company_iceberg_small).mark_bar().encode(
         x=alt.X('contributors',
                 axis=alt.Axis(title=None, ticks=False),
-                scale=alt.Scale(domain=[0,df_contributors_by_company['contributors'].max()])
+                scale=alt.Scale(domain=[0,max(df_contributors_by_company_small_xaxis)])
                 ),
         y=alt.Y('company_clean', sort=None, axis=alt.Axis(title=None, ticks=False)),
         tooltip=[
@@ -584,7 +590,7 @@ contributors_iceberg_bars_small = alt.Chart(df_contributors_by_company_iceberg_s
 contributors_delta_bars_small = alt.Chart(df_contributors_by_company_delta_small).mark_bar().encode(
         x=alt.X('contributors',
                 axis=alt.Axis(title=None, ticks=False),
-                scale=alt.Scale(domain=[0,df_contributors_by_company['contributors'].max()])
+                scale=alt.Scale(domain=[0,max(df_contributors_by_company_small_xaxis)])
                 ),
         y=alt.Y('company_clean', sort=None, axis=alt.Axis(title=None, ticks=False)),
         tooltip=[
@@ -604,7 +610,7 @@ contributors_delta_bars_small = alt.Chart(df_contributors_by_company_delta_small
 contributors_hudi_bars_small = alt.Chart(df_contributors_by_company_hudi_small).mark_bar().encode(
         x=alt.X('contributors',
                 axis=alt.Axis(title=None, ticks=False),
-                scale=alt.Scale(domain=[0,df_contributors_by_company['contributors'].max()])
+                scale=alt.Scale(domain=[0,max(df_contributors_by_company_small_xaxis)])
                 ),
         y=alt.Y('company_clean', sort=None, axis=alt.Axis(title=None, ticks=False)),
         tooltip=[
