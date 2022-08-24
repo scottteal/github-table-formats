@@ -1,4 +1,3 @@
-from turtle import width
 import streamlit as st
 import altair as alt
 import pandas as pd
@@ -6,7 +5,6 @@ import numpy as np
 import urllib.request
 import requests
 import json
-import os
 
 st.set_page_config(layout='wide')
 st.title('Table Format Projects on Github')
