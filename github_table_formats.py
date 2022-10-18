@@ -362,8 +362,8 @@ df_total_commits = df_commits_profiles.groupby('project', as_index=False).size()
 df_commits_profiles['created_at'] = pd.to_datetime(df_commits_profiles['created_at']).dt.strftime('%Y-%m')
 df_total_commits_line_project = df_commits_profiles.groupby(['project', 'created_at'], as_index=False).size().rename(columns={'size':'commits'})
 df_total_commits_line_project['cumsum_commits'] = df_total_commits_line_project.groupby(['project'], as_index=False).cumsum()
-df_total_commits_line_company = df_commits_profiles.groupby(['company_clean', 'created_at'], as_index=False).size().rename(columns={'size':'commits'})
-df_total_commits_line_company['cumsum_commits'] = df_total_commits_line_company.groupby(['company_clean'], as_index=False).cumsum()
+df_total_commits_line_company_project = df_commits_profiles.groupby(['project', 'company_clean', 'created_at'], as_index=False).size().rename(columns={'size':'commits'})
+df_total_commits_line_company_project['cumsum_commits'] = df_total_commits_line_company_project.groupby(['company_clean'], as_index=False).cumsum()
 
 # DEFINE CHART DATAFRAMES - COMMITS - ICEBERG
 df_commits_by_company_iceberg = df_commits_by_company.loc[df_commits_by_company['project'] == 'iceberg']
@@ -377,6 +377,7 @@ df_commits_by_company_iceberg_small = df_commits_by_company_iceberg_small.append
         'pct_commits':df_commits_by_company_iceberg['pct_commits'].iloc[5:].sum()
     }, ignore_index=True
 )
+df_commits_by_company_iceberg_line = df_total_commits_line_company_project.loc[df_total_commits_line_company_project['project'] == 'iceberg']
 
 # DEFINE CHART DATAFRAMES - COMMITS - DELTA
 df_commits_by_company_delta = df_commits_by_company.loc[df_commits_by_company['project'] == 'delta']
@@ -390,6 +391,7 @@ df_commits_by_company_delta_small = df_commits_by_company_delta_small.append(
         'pct_commits':df_commits_by_company_delta['pct_commits'].iloc[5:].sum()
     }, ignore_index=True
 )
+df_commits_by_company_delta_line = df_total_commits_line_company_project.loc[df_total_commits_line_company_project['project'] == 'delta']
 
 # DEFINE CHART DATAFRAMES - COMMITS - HUDI
 df_commits_by_company_hudi = df_commits_by_company.loc[df_commits_by_company['project'] == 'hudi']
@@ -403,6 +405,7 @@ df_commits_by_company_hudi_small = df_commits_by_company_hudi_small.append(
         'pct_commits':df_commits_by_company_hudi['pct_commits'].iloc[5:].sum()
     }, ignore_index=True
 )
+df_commits_by_company_hudi_line = df_total_commits_line_company_project.loc[df_total_commits_line_company_project['project'] == 'hudi']
 
 
 # DEFINE CHARTS - CONTRIBUTIONS
@@ -1255,10 +1258,10 @@ with tab3:
     with tab3_row2_2:
         if cumsum == 'Yes':
             st.subheader('Cumulative Commits Over Time by Company')
-            st.altair_chart(commits_line_company_cumsum, use_container_width=True)
+            st.altair_chart(commits_iceberg_line_company_cumsum, use_container_width=True)
         else:
             st.subheader('Pull Commits Over Time by Company')
-            st.altair_chart(commits_line_company, use_container_width=True)
+            st.altair_chart(commits_iceberg_line_company, use_container_width=True)
 
 
     tab3_row3_1, tab3_row3_2 = st.columns((1, 3))
@@ -1272,10 +1275,10 @@ with tab3:
     with tab3_row3_2:
         if cumsum == 'Yes':
             st.subheader('Cumulative Commits Over Time by Company')
-            st.altair_chart(commits_line_company_cumsum, use_container_width=True)
+            st.altair_chart(commits_delta_line_company_cumsum, use_container_width=True)
         else:
             st.subheader('Pull Commits Over Time by Company')
-            st.altair_chart(commits_line_company, use_container_width=True)
+            st.altair_chart(commits_delta_line_company, use_container_width=True)
 
     tab3_row4_1, tab3_row4_2 = st.columns((1, 3))
 
@@ -1288,7 +1291,7 @@ with tab3:
     with tab3_row4_2:
         if cumsum == 'Yes':
             st.subheader('Cumulative Commits Over Time by Company')
-            st.altair_chart(commits_line_company_cumsum, use_container_width=True)
+            st.altair_chart(commits_hudi_line_company_cumsum, use_container_width=True)
         else:
             st.subheader('Pull Commits Over Time by Company')
-            st.altair_chart(commits_line_company, use_container_width=True)
+            st.altair_chart(commits_hudi_line_company, use_container_width=True)
