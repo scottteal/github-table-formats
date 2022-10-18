@@ -951,7 +951,7 @@ commits_iceberg_bars_small = alt.Chart(df_commits_by_company_iceberg_small).mark
         strokeWidth=0
     )
 
-commits_hudi_iceberg_company = alt.Chart(df_commits_by_company_iceberg_line).mark_line().encode(
+commits_iceberg_line_company = alt.Chart(df_commits_by_company_iceberg_line).mark_line().encode(
         x=alt.X('created_at:N',
             title=str('date commit created'),
             axis=alt.Axis(title=None, ticks=False)
