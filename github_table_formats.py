@@ -310,8 +310,8 @@ df_total_pulls_bars = df_pulls_profiles.groupby('project', as_index=False).size(
 df_pulls_profiles['created_at'] = pd.to_datetime(df_pulls_profiles['created_at']).dt.strftime('%Y-%m')
 df_total_pulls_line_project = df_pulls_profiles.groupby(['project', 'created_at'], as_index=False).size().rename(columns={'size':'pulls'})
 df_total_pulls_line_project['cumsum_pulls'] = df_total_pulls_line_project.groupby(['project'], as_index=False).cumsum()
-df_total_pulls_line_company = df_pulls_profiles.groupby(['company_clean', 'created_at'], as_index=False).size().rename(columns={'size':'pulls'})
-df_total_pulls_line_company['cumsum_pulls'] = df_total_pulls_line_company.groupby(['company_clean'], as_index=False).cumsum()
+df_total_pulls_line_company_project = df_pulls_profiles.groupby(['project', 'company_clean', 'created_at'], as_index=False).size().rename(columns={'size':'pulls'})
+df_total_pulls_line_company_project['cumsum_pulls'] = df_total_pulls_line_company_project.groupby(['project', 'company_clean'], as_index=False).cumsum()
 
 # DEFINE CHART DATAFRAMES - PULLS - ICEBERG
 df_pulls_by_company_iceberg = df_pulls_by_company.loc[df_pulls_by_company['project'] == 'iceberg']
@@ -325,6 +325,7 @@ df_pulls_by_company_iceberg_small = df_pulls_by_company_iceberg_small.append(
         'pct_pulls':df_pulls_by_company_iceberg['pct_pulls'].iloc[5:].sum()
     }, ignore_index=True
 )
+df_pulls_by_company_iceberg_line = df_total_pulls_line_company_project.loc[df_total_pulls_line_company_project['project'] == 'iceberg']
 
 # DEFINE CHART DATAFRAMES - PULLS - DELTA
 df_pulls_by_company_delta = df_pulls_by_company.loc[df_pulls_by_company['project'] == 'delta']
@@ -338,6 +339,7 @@ df_pulls_by_company_delta_small = df_pulls_by_company_delta_small.append(
         'pct_pulls':df_pulls_by_company_delta['pct_pulls'].iloc[5:].sum()
     }, ignore_index=True
 )
+df_pulls_by_company_delta_line = df_total_pulls_line_company_project.loc[df_total_pulls_line_company_project['project'] == 'delta']
 
 # DEFINE CHART DATAFRAMES - PULLS - HUDI
 df_pulls_by_company_hudi = df_pulls_by_company.loc[df_pulls_by_company['project'] == 'hudi']
@@ -351,6 +353,7 @@ df_pulls_by_company_hudi_small = df_pulls_by_company_hudi_small.append(
         'pct_pulls':df_pulls_by_company_hudi['pct_pulls'].iloc[5:].sum()
     }, ignore_index=True
 )
+df_pulls_by_company_hudi_line = df_total_pulls_line_company_project.loc[df_total_pulls_line_company_project['project'] == 'hudi']
 
 # DEFINE CHART DATAFRAMES - COMMITS - BARS
 df_total_commits = df_commits_profiles.groupby('project', as_index=False).size().rename(columns={'size':'commits'})
@@ -694,7 +697,28 @@ pulls_line_project_cumsum = alt.Chart(df_total_pulls_line_project).mark_line().e
         strokeWidth=0
     )
 
-pulls_line_company = alt.Chart(df_total_pulls_line_company).mark_line().encode(
+# DEFINE CHARTS - PULLS - ICEBERG - SMALL
+pulls_iceberg_bars_small = alt.Chart(df_pulls_by_company_iceberg_small).mark_bar().encode(
+        x=alt.X('pulls',
+                axis=alt.Axis(title=None, ticks=False),
+                scale=alt.Scale(domain=[0,df_pulls_by_company['pulls'].max()])
+                ),
+        y=alt.Y('company_clean', sort=None, axis=alt.Axis(title=None, ticks=False)),
+        tooltip=[
+                alt.Tooltip('company_clean', title=str('company')),
+                alt.Tooltip('pulls', format=',', title=str('total pull requests')),
+                alt.Tooltip('pct_pulls', format='.2%', title=str('percent of pull requests'))
+            ]
+    ).properties(
+        height=300
+    ).configure_axis(
+        grid=False
+    ).configure_view(
+        strokeWidth=0
+    )
+
+# DEFINE CHARTS - PULLS - ICEBERG - LINE
+pulls_iceberg_line_company = alt.Chart(df_pulls_by_company_iceberg_line).mark_line().encode(
         x=alt.X('created_at:N',
             title=str('date pull request created'),
             axis=alt.Axis(title=None, ticks=False)
@@ -718,7 +742,7 @@ pulls_line_company = alt.Chart(df_total_pulls_line_company).mark_line().encode(
         strokeWidth=0
     )
 
-pulls_line_company_cumsum = alt.Chart(df_total_pulls_line_company).mark_line().encode(
+pulls_iceberg_line_company_cumsum = alt.Chart(df_pulls_by_company_iceberg_line).mark_line().encode(
         x=alt.X('created_at:N',
             title=str('date pull request created'),
             axis=alt.Axis(title=None, ticks=False)
@@ -742,25 +766,6 @@ pulls_line_company_cumsum = alt.Chart(df_total_pulls_line_company).mark_line().e
         strokeWidth=0
     )
 
-# DEFINE CHARTS - PULLS - ICEBERG - SMALL
-pulls_iceberg_bars_small = alt.Chart(df_pulls_by_company_iceberg_small).mark_bar().encode(
-        x=alt.X('pulls',
-                axis=alt.Axis(title=None, ticks=False),
-                scale=alt.Scale(domain=[0,df_pulls_by_company['pulls'].max()])
-                ),
-        y=alt.Y('company_clean', sort=None, axis=alt.Axis(title=None, ticks=False)),
-        tooltip=[
-                alt.Tooltip('company_clean', title=str('company')),
-                alt.Tooltip('pulls', format=',', title=str('total pull requests')),
-                alt.Tooltip('pct_pulls', format='.2%', title=str('percent of pull requests'))
-            ]
-    ).properties(
-        height=300
-    ).configure_axis(
-        grid=False
-    ).configure_view(
-        strokeWidth=0
-    )
 
 # DEFINE CHARTS - PULLS - DELTA - SMALL
 pulls_delta_bars_small = alt.Chart(df_pulls_by_company_delta_small).mark_bar().encode(
@@ -782,6 +787,55 @@ pulls_delta_bars_small = alt.Chart(df_pulls_by_company_delta_small).mark_bar().e
         strokeWidth=0
     )
 
+# DEFINE CHARTS - PULLS - DELTA - LINE
+pulls_delta_line_company = alt.Chart(df_pulls_by_company_delta_line).mark_line().encode(
+        x=alt.X('created_at:N',
+            title=str('date pull request created'),
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        y=alt.Y(
+            'pulls',
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        color=alt.Color('company_clean',legend=None),
+        tooltip=[
+            alt.Tooltip('company_clean', title=str('company')),
+            alt.Tooltip('created_at', format=',', title=str('month')),
+            
+            alt.Tooltip('pulls', format=',', title=str('total pull requests'))
+            ]
+    ).properties(
+        height=300
+    ).configure_axis(
+        grid=False
+    ).configure_view(
+        strokeWidth=0
+    )
+
+pulls_delta_line_company_cumsum = alt.Chart(df_pulls_by_company_delta_line).mark_line().encode(
+        x=alt.X('created_at:N',
+            title=str('date pull request created'),
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        y=alt.Y(
+            'cumsum_pulls',
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        color=alt.Color('company_clean',legend=None),
+        tooltip=[
+            alt.Tooltip('company_clean', title=str('company')),
+            alt.Tooltip('created_at', format=',', title=str('month')),
+            
+            alt.Tooltip('cumsum_pulls', format=',', title=str('cumulative pull requests'))
+            ]
+    ).properties(
+        height=300
+    ).configure_axis(
+        grid=False
+    ).configure_view(
+        strokeWidth=0
+    )
+
 # DEFINE CHARTS - PULLS - HUDI - SMALL
 pulls_hudi_bars_small = alt.Chart(df_pulls_by_company_hudi_small).mark_bar().encode(
         x=alt.X('pulls',
@@ -793,6 +847,55 @@ pulls_hudi_bars_small = alt.Chart(df_pulls_by_company_hudi_small).mark_bar().enc
                 alt.Tooltip('company_clean', title=str('company')),
                 alt.Tooltip('pulls', format=',', title=str('total pull requests')),
                 alt.Tooltip('pct_pulls', format='.2%', title=str('percent of pull requests'))
+            ]
+    ).properties(
+        height=300
+    ).configure_axis(
+        grid=False
+    ).configure_view(
+        strokeWidth=0
+    )
+
+# DEFINE CHARTS - PULLS - HUDI - LINE
+pulls_hudi_line_company = alt.Chart(df_pulls_by_company_hudi_line).mark_line().encode(
+        x=alt.X('created_at:N',
+            title=str('date pull request created'),
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        y=alt.Y(
+            'pulls',
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        color=alt.Color('company_clean',legend=None),
+        tooltip=[
+            alt.Tooltip('company_clean', title=str('company')),
+            alt.Tooltip('created_at', format=',', title=str('month')),
+            
+            alt.Tooltip('pulls', format=',', title=str('total pull requests'))
+            ]
+    ).properties(
+        height=300
+    ).configure_axis(
+        grid=False
+    ).configure_view(
+        strokeWidth=0
+    )
+
+pulls_hudi_line_company_cumsum = alt.Chart(df_pulls_by_company_hudi_line).mark_line().encode(
+        x=alt.X('created_at:N',
+            title=str('date pull request created'),
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        y=alt.Y(
+            'cumsum_pulls',
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        color=alt.Color('company_clean',legend=None),
+        tooltip=[
+            alt.Tooltip('company_clean', title=str('company')),
+            alt.Tooltip('created_at', format=',', title=str('month')),
+            
+            alt.Tooltip('cumsum_pulls', format=',', title=str('cumulative pull requests'))
             ]
     ).properties(
         height=300
@@ -1056,43 +1159,69 @@ with tab2:
     [Pull requests](https://docs.github.com/en/get-started/quickstart/github-glossary#pull-request) are proposed changes to a repository submitted by a user and accepted or rejected by a repository's collaborators. Like issues, pull requests each have their own discussion forum.
     """)
     
-    tab2_row1_1, tab2_row1_2, tab2_row1_3, tab2_row1_4 = st.columns((1, 1, 1, 1))
+    tab2_row1_1, tab2_row1_2 = st.columns((1, 3))
 
     with tab2_row1_1:
         st.subheader('By Project')
         st.altair_chart(pulls_bars, use_container_width=True)
 
     with tab2_row1_2:
+        if cumsum == 'Yes':
+            st.subheader('Cumulative Pull Requests Over Time by Project')
+            st.altair_chart(pulls_line_project_cumsum, use_container_width=True)
+        else:
+            st.subheader('Pull Requests Over Time by Project')
+            st.altair_chart(pulls_line_project, use_container_width=True)
+
+    tab2_row2_1, tab2_row2_2 = st.columns((1, 3))
+
+    with tab2_row2_1:
         st.subheader('Iceberg')
         st.altair_chart(pulls_iceberg_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_pulls_by_company_iceberg[['company_clean','pulls','pct_pulls']].rename(columns={'company_clean':'company','pulls':'pull requests','pct_pulls':'%'}))
 
-    with tab2_row1_3:
+    with tab2_row2_2:
+        if cumsum == 'Yes':
+            st.subheader('Cumulative Pull Requests Over Time by Company')
+            st.altair_chart(pulls_iceberg_line_company_cumsum, use_container_width=True)
+        else:
+            st.subheader('Pull Requests Over Time by Company')
+            st.altair_chart(pulls_iceberg_line_company, use_container_width=True)
+
+
+    tab2_row3_1, tab2_row3_2 = st.columns((1, 3))
+    
+    with tab2_row3_1:
         st.subheader('Delta Lake')
         st.altair_chart(pulls_delta_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_pulls_by_company_delta[['company_clean','pulls','pct_pulls']].rename(columns={'company_clean':'company','pulls':'pull requests','pct_pulls':'%'}))
-
-    with tab2_row1_4:
+    
+    with tab2_row3_2:
+        if cumsum == 'Yes':
+            st.subheader('Cumulative Pull Requests Over Time by Company')
+            st.altair_chart(pulls_delta_line_company_cumsum, use_container_width=True)
+        else:
+            st.subheader('Pull Requests Over Time by Company')
+            st.altair_chart(pulls_delta_line_company, use_container_width=True)
+    
+    tab2_row4_1, tab2_row4_2 = st.columns((1, 3))
+    
+    with tab2_row4_1:
         st.subheader('Hudi')
         st.altair_chart(pulls_hudi_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_pulls_by_company_hudi[['company_clean','pulls','pct_pulls']].rename(columns={'company_clean':'company','pulls':'pull requests','pct_pulls':'%'}))
-    
-    if cumsum == 'Yes':
-        st.subheader('Cumulative Pull Requests Over Time by Project')
-        st.altair_chart(pulls_line_project_cumsum, use_container_width=True)
-    else:
-        st.subheader('Pull Requests Over Time by Project')
-        st.altair_chart(pulls_line_project, use_container_width=True)
 
-    if cumsum == 'Yes':
-        st.subheader('Cumulative Pull Requests Over Time by Company')
-        st.altair_chart(pulls_line_company_cumsum, use_container_width=True)
-    else:
-        st.subheader('Pull Requests Over Time by Company')
-        st.altair_chart(pulls_line_company, use_container_width=True)    
+    with tab2_row4_2:
+        if cumsum == 'Yes':
+            st.subheader('Cumulative Pull Requests Over Time by Company')
+            st.altair_chart(pulls_hudi_line_company_cumsum, use_container_width=True)
+        else:
+            st.subheader('Pull Requests Over Time by Company')
+            st.altair_chart(pulls_hudi_line_company, use_container_width=True)
+        
 
 with tab3:
     st.header('Total Commits by Project')
@@ -1100,40 +1229,66 @@ with tab3:
     A [commit](https://docs.github.com/en/get-started/quickstart/github-glossary) or "revision", is an individual change to a file (or set of files).
     """)
     
-    tab3_row1_1, tab3_row1_2, tab3_row1_3, tab3_row1_4 = st.columns((1, 1, 1, 1))
+    tab3_row1_1, tab3_row1_2 = st.columns((1, 3))
 
     with tab3_row1_1:
         st.subheader('By Project')
         st.altair_chart(commits_bars, use_container_width=True)
-
+    
     with tab3_row1_2:
+        if cumsum == 'Yes':
+            st.subheader('Cumulative Commits Over Time by Project')
+            st.altair_chart(commits_line_project_cumsum, use_container_width=True)
+        else:
+            st.subheader('Commits Over Time by Project')
+            st.altair_chart(commits_line_project, use_container_width=True)
+
+
+    tab3_row2_1, tab3_row2_2 = st.columns((1, 3))
+
+    with tab3_row2_1:
         st.subheader('Iceberg')
         st.altair_chart(commits_iceberg_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_commits_by_company_hudi[['company_clean','commits','pct_commits']].rename(columns={'company_clean':'company','pct_commits':'%'}))
 
-    with tab3_row1_3:
+    with tab3_row2_2:
+        if cumsum == 'Yes':
+            st.subheader('Cumulative Commits Over Time by Company')
+            st.altair_chart(commits_line_company_cumsum, use_container_width=True)
+        else:
+            st.subheader('Pull Commits Over Time by Company')
+            st.altair_chart(commits_line_company, use_container_width=True)
+
+
+    tab3_row3_1, tab3_row3_2 = st.columns((1, 3))
+
+    with tab3_row3_1:
         st.subheader('Delta Lake')
         st.altair_chart(commits_delta_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_commits_by_company_hudi[['company_clean','commits','pct_commits']].rename(columns={'company_clean':'company','pct_commits':'%'}))
 
-    with tab3_row1_4:
+    with tab3_row3_2:
+        if cumsum == 'Yes':
+            st.subheader('Cumulative Commits Over Time by Company')
+            st.altair_chart(commits_line_company_cumsum, use_container_width=True)
+        else:
+            st.subheader('Pull Commits Over Time by Company')
+            st.altair_chart(commits_line_company, use_container_width=True)
+
+    tab3_row4_1, tab3_row4_2 = st.columns((1, 3))
+
+    with tab3_row4_1:
         st.subheader('Hudi')
         st.altair_chart(commits_hudi_bars_small, use_container_width=True)
         with st.expander("See all companies"):
             st.table(df_commits_by_company_hudi[['company_clean','commits','pct_commits']].rename(columns={'company_clean':'company','pct_commits':'%'}))
 
-    if cumsum == 'Yes':
-        st.subheader('Cumulative Commits Over Time by Project')
-        st.altair_chart(commits_line_project_cumsum, use_container_width=True)
-    else:
-        st.subheader('Commits Over Time by Project')
-        st.altair_chart(commits_line_project, use_container_width=True)
-
-    if cumsum == 'Yes':
-        st.subheader('Cumulative Commits Over Time by Company')
-        st.altair_chart(commits_line_company_cumsum, use_container_width=True)
-    else:
-        st.subheader('Pull Commits Over Time by Company')
-        st.altair_chart(commits_line_company, use_container_width=True)
+    with tab3_row4_2:
+        if cumsum == 'Yes':
+            st.subheader('Cumulative Commits Over Time by Company')
+            st.altair_chart(commits_line_company_cumsum, use_container_width=True)
+        else:
+            st.subheader('Pull Commits Over Time by Company')
+            st.altair_chart(commits_line_company, use_container_width=True)
