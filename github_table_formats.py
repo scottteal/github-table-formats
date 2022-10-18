@@ -657,7 +657,7 @@ pulls_bars = alt.Chart(df_total_pulls_bars).mark_bar().encode(
 
 # DEFINE CHARTS - PULLS - LINE
 pulls_line_project = alt.Chart(df_total_pulls_line_project).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date pull request created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -679,7 +679,7 @@ pulls_line_project = alt.Chart(df_total_pulls_line_project).mark_line().encode(
     )
 
 pulls_line_project_cumsum = alt.Chart(df_total_pulls_line_project).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date pull request created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -722,7 +722,7 @@ pulls_iceberg_bars_small = alt.Chart(df_pulls_by_company_iceberg_small).mark_bar
 
 # DEFINE CHARTS - PULLS - ICEBERG - LINE
 pulls_iceberg_line_company = alt.Chart(df_pulls_by_company_iceberg_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date pull request created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -746,7 +746,7 @@ pulls_iceberg_line_company = alt.Chart(df_pulls_by_company_iceberg_line).mark_li
     )
 
 pulls_iceberg_line_company_cumsum = alt.Chart(df_pulls_by_company_iceberg_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date pull request created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -792,7 +792,7 @@ pulls_delta_bars_small = alt.Chart(df_pulls_by_company_delta_small).mark_bar().e
 
 # DEFINE CHARTS - PULLS - DELTA - LINE
 pulls_delta_line_company = alt.Chart(df_pulls_by_company_delta_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date pull request created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -816,7 +816,7 @@ pulls_delta_line_company = alt.Chart(df_pulls_by_company_delta_line).mark_line()
     )
 
 pulls_delta_line_company_cumsum = alt.Chart(df_pulls_by_company_delta_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date pull request created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -861,7 +861,7 @@ pulls_hudi_bars_small = alt.Chart(df_pulls_by_company_hudi_small).mark_bar().enc
 
 # DEFINE CHARTS - PULLS - HUDI - LINE
 pulls_hudi_line_company = alt.Chart(df_pulls_by_company_hudi_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date pull request created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -885,7 +885,7 @@ pulls_hudi_line_company = alt.Chart(df_pulls_by_company_hudi_line).mark_line().e
     )
 
 pulls_hudi_line_company_cumsum = alt.Chart(df_pulls_by_company_hudi_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date pull request created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -952,7 +952,7 @@ commits_iceberg_bars_small = alt.Chart(df_commits_by_company_iceberg_small).mark
     )
 
 commits_iceberg_line_company = alt.Chart(df_commits_by_company_iceberg_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date commit created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -976,7 +976,7 @@ commits_iceberg_line_company = alt.Chart(df_commits_by_company_iceberg_line).mar
     )
 
 commits_iceberg_line_company_cumsum = alt.Chart(df_commits_by_company_iceberg_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date commit created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -1020,7 +1020,7 @@ commits_delta_bars_small = alt.Chart(df_commits_by_company_delta_small).mark_bar
     )
 
 commits_delta_line_company = alt.Chart(df_commits_by_company_delta_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date commit created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -1044,7 +1044,7 @@ commits_delta_line_company = alt.Chart(df_commits_by_company_delta_line).mark_li
     )
 
 commits_delta_line_company_cumsum = alt.Chart(df_commits_by_company_delta_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date commit created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -1088,7 +1088,7 @@ commits_hudi_bars_small = alt.Chart(df_commits_by_company_hudi_small).mark_bar()
     )
 
 commits_hudi_line_company = alt.Chart(df_commits_by_company_hudi_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date commit created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -1112,7 +1112,7 @@ commits_hudi_line_company = alt.Chart(df_commits_by_company_hudi_line).mark_line
     )
 
 commits_hudi_line_company_cumsum = alt.Chart(df_commits_by_company_hudi_line).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date commit created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -1137,7 +1137,7 @@ commits_hudi_line_company_cumsum = alt.Chart(df_commits_by_company_hudi_line).ma
 
 # DEFINE CHARTS - COMMITS - LINES
 commits_line_project = alt.Chart(df_total_commits_line_project).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date commit created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
@@ -1159,7 +1159,7 @@ commits_line_project = alt.Chart(df_total_commits_line_project).mark_line().enco
     )
 
 commits_line_project_cumsum = alt.Chart(df_total_commits_line_project).mark_line().encode(
-        x=alt.X('created_at:N',
+        x=alt.X('created_at:T',
             title=str('date pull request created'),
             axis=alt.Axis(title=None, ticks=False)
             ),
