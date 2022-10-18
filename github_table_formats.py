@@ -951,6 +951,54 @@ commits_iceberg_bars_small = alt.Chart(df_commits_by_company_iceberg_small).mark
         strokeWidth=0
     )
 
+commits_hudi_iceberg_company = alt.Chart(df_commits_by_company_iceberg_line).mark_line().encode(
+        x=alt.X('created_at:N',
+            title=str('date commit created'),
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        y=alt.Y(
+            'commits',
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        color=alt.Color('company_clean',legend=None),
+        tooltip=[
+            alt.Tooltip('company_clean', title=str('company')),
+            alt.Tooltip('created_at', format=',', title=str('month')),
+            
+            alt.Tooltip('commits', format=',', title=str('total commits'))
+            ]
+    ).properties(
+        height=300
+    ).configure_axis(
+        grid=False
+    ).configure_view(
+        strokeWidth=0
+    )
+
+commits_iceberg_line_company_cumsum = alt.Chart(df_commits_by_company_iceberg_line).mark_line().encode(
+        x=alt.X('created_at:N',
+            title=str('date commit created'),
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        y=alt.Y(
+            'cumsum_commits',
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        color=alt.Color('company_clean',legend=None),
+        tooltip=[
+            alt.Tooltip('company_clean', title=str('company')),
+            alt.Tooltip('created_at', format=',', title=str('month')),
+            
+            alt.Tooltip('cumsum_commits', format=',', title=str('cumulative commits'))
+            ]
+    ).properties(
+        height=300
+    ).configure_axis(
+        grid=False
+    ).configure_view(
+        strokeWidth=0
+    )
+
 # DEFINE CHARTS - COMMITS - DELTA
 commits_delta_bars_small = alt.Chart(df_commits_by_company_delta_small).mark_bar().encode(
         x=alt.X('commits',
@@ -971,6 +1019,54 @@ commits_delta_bars_small = alt.Chart(df_commits_by_company_delta_small).mark_bar
         strokeWidth=0
     )
 
+commits_delta_line_company = alt.Chart(df_commits_by_company_delta_line).mark_line().encode(
+        x=alt.X('created_at:N',
+            title=str('date commit created'),
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        y=alt.Y(
+            'commits',
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        color=alt.Color('company_clean',legend=None),
+        tooltip=[
+            alt.Tooltip('company_clean', title=str('company')),
+            alt.Tooltip('created_at', format=',', title=str('month')),
+            
+            alt.Tooltip('commits', format=',', title=str('total commits'))
+            ]
+    ).properties(
+        height=300
+    ).configure_axis(
+        grid=False
+    ).configure_view(
+        strokeWidth=0
+    )
+
+commits_delta_line_company_cumsum = alt.Chart(df_commits_by_company_delta_line).mark_line().encode(
+        x=alt.X('created_at:N',
+            title=str('date commit created'),
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        y=alt.Y(
+            'cumsum_commits',
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        color=alt.Color('company_clean',legend=None),
+        tooltip=[
+            alt.Tooltip('company_clean', title=str('company')),
+            alt.Tooltip('created_at', format=',', title=str('month')),
+            
+            alt.Tooltip('cumsum_commits', format=',', title=str('cumulative commits'))
+            ]
+    ).properties(
+        height=300
+    ).configure_axis(
+        grid=False
+    ).configure_view(
+        strokeWidth=0
+    )
+
 # DEFINE CHARTS - COMMITS - HUDI
 commits_hudi_bars_small = alt.Chart(df_commits_by_company_hudi_small).mark_bar().encode(
         x=alt.X('commits',
@@ -982,6 +1078,54 @@ commits_hudi_bars_small = alt.Chart(df_commits_by_company_hudi_small).mark_bar()
                 alt.Tooltip('company_clean', title=str('company')),
                 alt.Tooltip('commits', format=',', title=str('total commits')),
                 alt.Tooltip('pct_commits', format='.2%', title=str('percent of commits'))
+            ]
+    ).properties(
+        height=300
+    ).configure_axis(
+        grid=False
+    ).configure_view(
+        strokeWidth=0
+    )
+
+commits_hudi_line_company = alt.Chart(df_commits_by_company_hudi_line).mark_line().encode(
+        x=alt.X('created_at:N',
+            title=str('date commit created'),
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        y=alt.Y(
+            'commits',
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        color=alt.Color('company_clean',legend=None),
+        tooltip=[
+            alt.Tooltip('company_clean', title=str('company')),
+            alt.Tooltip('created_at', format=',', title=str('month')),
+            
+            alt.Tooltip('commits', format=',', title=str('total commits'))
+            ]
+    ).properties(
+        height=300
+    ).configure_axis(
+        grid=False
+    ).configure_view(
+        strokeWidth=0
+    )
+
+commits_hudi_line_company_cumsum = alt.Chart(df_commits_by_company_hudi_line).mark_line().encode(
+        x=alt.X('created_at:N',
+            title=str('date commit created'),
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        y=alt.Y(
+            'cumsum_commits',
+            axis=alt.Axis(title=None, ticks=False)
+            ),
+        color=alt.Color('company_clean',legend=None),
+        tooltip=[
+            alt.Tooltip('company_clean', title=str('company')),
+            alt.Tooltip('created_at', format=',', title=str('month')),
+            
+            alt.Tooltip('cumsum_commits', format=',', title=str('cumulative commits'))
             ]
     ).properties(
         height=300
@@ -1026,54 +1170,6 @@ commits_line_project_cumsum = alt.Chart(df_total_commits_line_project).mark_line
         tooltip=[
             alt.Tooltip('project'),
             alt.Tooltip('created_at', format=',', title=str('month')),
-            alt.Tooltip('cumsum_commits', format=',', title=str('cumulative commits'))
-            ]
-    ).properties(
-        height=300
-    ).configure_axis(
-        grid=False
-    ).configure_view(
-        strokeWidth=0
-    )
-
-commits_line_company = alt.Chart(df_total_commits_line_company).mark_line().encode(
-        x=alt.X('created_at:N',
-            title=str('date commit created'),
-            axis=alt.Axis(title=None, ticks=False)
-            ),
-        y=alt.Y(
-            'commits',
-            axis=alt.Axis(title=None, ticks=False)
-            ),
-        color=alt.Color('company_clean',legend=None),
-        tooltip=[
-            alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format=',', title=str('month')),
-            
-            alt.Tooltip('commits', format=',', title=str('total commits'))
-            ]
-    ).properties(
-        height=300
-    ).configure_axis(
-        grid=False
-    ).configure_view(
-        strokeWidth=0
-    )
-
-commits_line_company_cumsum = alt.Chart(df_total_commits_line_company).mark_line().encode(
-        x=alt.X('created_at:N',
-            title=str('date commit created'),
-            axis=alt.Axis(title=None, ticks=False)
-            ),
-        y=alt.Y(
-            'cumsum_commits',
-            axis=alt.Axis(title=None, ticks=False)
-            ),
-        color=alt.Color('company_clean',legend=None),
-        tooltip=[
-            alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format=',', title=str('month')),
-            
             alt.Tooltip('cumsum_commits', format=',', title=str('cumulative commits'))
             ]
     ).properties(
