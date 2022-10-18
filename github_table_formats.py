@@ -659,7 +659,7 @@ pulls_bars = alt.Chart(df_total_pulls_bars).mark_bar().encode(
 pulls_line_project = alt.Chart(df_total_pulls_line_project).mark_line().encode(
         x=alt.X('created_at:T',
             title=str('date pull request created'),
-            axis=alt.Axis(title=None, ticks=False)
+            axis=alt.Axis(title=None, ticks=True)
             ),
         y=alt.Y('pulls',
             axis=alt.Axis(title=None, ticks=False)
