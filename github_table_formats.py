@@ -667,7 +667,7 @@ pulls_line_project = alt.Chart(df_total_pulls_line_project).mark_line().encode(
         color=alt.Color('project',legend=None),
         tooltip=[
             alt.Tooltip('project'),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             alt.Tooltip('pulls', format=',', title=str('total pull requests'))
             ]
     ).properties(
@@ -689,7 +689,7 @@ pulls_line_project_cumsum = alt.Chart(df_total_pulls_line_project).mark_line().e
         color=alt.Color('project',legend=None),
         tooltip=[
             alt.Tooltip('project'),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             alt.Tooltip('cumsum_pulls', format=',', title=str('cumulative pull requests'))
             ]
     ).properties(
@@ -733,7 +733,7 @@ pulls_iceberg_line_company = alt.Chart(df_pulls_by_company_iceberg_line).mark_li
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('pulls', format=',', title=str('total pull requests'))
             ]
@@ -757,7 +757,7 @@ pulls_iceberg_line_company_cumsum = alt.Chart(df_pulls_by_company_iceberg_line).
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('cumsum_pulls', format=',', title=str('cumulative pull requests'))
             ]
@@ -803,7 +803,7 @@ pulls_delta_line_company = alt.Chart(df_pulls_by_company_delta_line).mark_line()
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('pulls', format=',', title=str('total pull requests'))
             ]
@@ -827,7 +827,7 @@ pulls_delta_line_company_cumsum = alt.Chart(df_pulls_by_company_delta_line).mark
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('cumsum_pulls', format=',', title=str('cumulative pull requests'))
             ]
@@ -872,7 +872,7 @@ pulls_hudi_line_company = alt.Chart(df_pulls_by_company_hudi_line).mark_line().e
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('pulls', format=',', title=str('total pull requests'))
             ]
@@ -896,7 +896,7 @@ pulls_hudi_line_company_cumsum = alt.Chart(df_pulls_by_company_hudi_line).mark_l
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('cumsum_pulls', format=',', title=str('cumulative pull requests'))
             ]
@@ -963,7 +963,7 @@ commits_iceberg_line_company = alt.Chart(df_commits_by_company_iceberg_line).mar
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('commits', format=',', title=str('total commits'))
             ]
@@ -987,7 +987,7 @@ commits_iceberg_line_company_cumsum = alt.Chart(df_commits_by_company_iceberg_li
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('cumsum_commits', format=',', title=str('cumulative commits'))
             ]
@@ -1031,7 +1031,7 @@ commits_delta_line_company = alt.Chart(df_commits_by_company_delta_line).mark_li
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('commits', format=',', title=str('total commits'))
             ]
@@ -1055,7 +1055,7 @@ commits_delta_line_company_cumsum = alt.Chart(df_commits_by_company_delta_line).
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('cumsum_commits', format=',', title=str('cumulative commits'))
             ]
@@ -1099,7 +1099,7 @@ commits_hudi_line_company = alt.Chart(df_commits_by_company_hudi_line).mark_line
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('commits', format=',', title=str('total commits'))
             ]
@@ -1123,7 +1123,7 @@ commits_hudi_line_company_cumsum = alt.Chart(df_commits_by_company_hudi_line).ma
         color=alt.Color('company_clean',legend=None),
         tooltip=[
             alt.Tooltip('company_clean', title=str('company')),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             
             alt.Tooltip('cumsum_commits', format=',', title=str('cumulative commits'))
             ]
@@ -1147,7 +1147,7 @@ commits_line_project = alt.Chart(df_total_commits_line_project).mark_line().enco
         color=alt.Color('project',legend=None),
         tooltip=[
             alt.Tooltip('project'),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             alt.Tooltip('commits', format=',', title=str('total commits'))
             ]
     ).properties(
@@ -1169,7 +1169,7 @@ commits_line_project_cumsum = alt.Chart(df_total_commits_line_project).mark_line
         color=alt.Color('project',legend=None),
         tooltip=[
             alt.Tooltip('project'),
-            alt.Tooltip('created_at', format='%m-%y', title=str('month')),
+            alt.Tooltip('created_at', format='%Y-%M', title=str('month')),
             alt.Tooltip('cumsum_commits', format=',', title=str('cumulative commits'))
             ]
     ).properties(
